@@ -122,36 +122,43 @@
         <button type="button" class="survey-btn" id="industryContinue">Continue</button>
       </div>
 
-      <!-- Qualified -->
-      <div class="survey-step survey-step--center" id="step-qualified" hidden>
-        <h2 class="survey-heading survey-heading--success">Great, you qualify! 🎉</h2>
-        <p class="survey-text">Let's get your demo on the calendar.</p>
-        <button type="button" class="survey-btn" id="qualifiedContinue">Continue</button>
-      </div>
-
       <!-- Disqualified -->
       <div class="survey-step survey-step--center" id="step-disqualified" hidden>
         <h2 class="survey-heading">Thanks for your interest</h2>
         <p class="survey-text" id="disqualifiedText"></p>
       </div>
 
-      <!-- Contact -->
-      <div class="survey-step" id="step-contact" hidden>
-        <h2 class="survey-heading">Almost there — where should we send your confirmation?</h2>
+      <!-- Name -->
+      <div class="survey-step" id="step-name" hidden>
+        <h2 class="survey-heading">What's your name?</h2>
         <div class="survey-field">
           <label for="surveyName">Name</label>
           <input type="text" id="surveyName" autocomplete="name" />
         </div>
+        <p class="survey-error" id="nameError" hidden>Please enter your name.</p>
+        <button type="button" class="survey-btn" id="nameContinue">Continue</button>
+      </div>
+
+      <!-- Email -->
+      <div class="survey-step" id="step-email" hidden>
+        <h2 class="survey-heading">What's your email?</h2>
         <div class="survey-field">
           <label for="surveyEmail">Email</label>
           <input type="email" id="surveyEmail" autocomplete="email" />
         </div>
+        <p class="survey-error" id="emailError" hidden>Please enter a valid email.</p>
+        <button type="button" class="survey-btn" id="emailContinue">Continue</button>
+      </div>
+
+      <!-- Phone -->
+      <div class="survey-step" id="step-phone" hidden>
+        <h2 class="survey-heading">What's your phone number?</h2>
         <div class="survey-field">
           <label for="surveyPhone">Phone</label>
           <input type="tel" id="surveyPhone" autocomplete="tel" />
         </div>
-        <p class="survey-error" id="contactError" hidden>Please fill out every field with a valid email.</p>
-        <button type="button" class="survey-btn" id="contactContinue">Continue</button>
+        <p class="survey-error" id="phoneError" hidden>Please enter your phone number.</p>
+        <button type="button" class="survey-btn" id="phoneContinue">Continue</button>
       </div>
 
       <!-- Calendly -->
@@ -240,29 +247,46 @@
         document.getElementById('industryError').hidden = true;
 
         state.industry = industry;
-        showStep('step-qualified');
+        showStep('step-name');
       });
 
-      document.getElementById('qualifiedContinue').addEventListener('click', function () {
-        showStep('step-contact');
-      });
-
-      document.getElementById('contactContinue').addEventListener('click', function () {
+      document.getElementById('nameContinue').addEventListener('click', function () {
         const name = document.getElementById('surveyName').value.trim();
-        const email = document.getElementById('surveyEmail').value.trim();
-        const phone = document.getElementById('surveyPhone').value.trim();
-        const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-        if (!name || !phone || !emailValid) {
-          document.getElementById('contactError').hidden = false;
+        if (!name) {
+          document.getElementById('nameError').hidden = false;
           return;
         }
-        document.getElementById('contactError').hidden = true;
+        document.getElementById('nameError').hidden = true;
 
         state.name = name;
-        state.email = email;
-        state.phone = phone;
+        showStep('step-email');
+      });
 
+      document.getElementById('emailContinue').addEventListener('click', function () {
+        const email = document.getElementById('surveyEmail').value.trim();
+        const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+        if (!emailValid) {
+          document.getElementById('emailError').hidden = false;
+          return;
+        }
+        document.getElementById('emailError').hidden = true;
+
+        state.email = email;
+        showStep('step-phone');
+      });
+
+      document.getElementById('phoneContinue').addEventListener('click', function () {
+        const phone = document.getElementById('surveyPhone').value.trim();
+
+        if (!phone) {
+          document.getElementById('phoneError').hidden = false;
+          return;
+        }
+        document.getElementById('phoneError').hidden = true;
+
+        state.phone = phone;
         showStep('step-calendly');
         loadCalendly();
       });
