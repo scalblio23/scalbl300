@@ -102,12 +102,21 @@
       <!-- Industry -->
       <div class="survey-step" id="step-industry" hidden>
         <h2 class="survey-heading">What industry are you in?</h2>
-        <div class="survey-field">
-          <label for="surveyIndustry">Industry</label>
-          <input type="text" id="surveyIndustry" placeholder="e.g. Roofing, HVAC, Solar" />
+        <div class="survey-options">
+          <button type="button" class="survey-option" data-field="industry" data-value="Trades">Trades</button>
+          <button type="button" class="survey-option" data-field="industry" data-value="Solar">Solar</button>
+          <button type="button" class="survey-option" data-field="industry" data-value="Finance">Finance</button>
+          <button type="button" class="survey-option" data-field="industry" data-value="Legal">Legal</button>
+          <button type="button" class="survey-option" data-field="industry" data-value="Real Estate">Real Estate</button>
+          <button type="button" class="survey-option" data-field="industry" data-value="Marketing">Marketing</button>
+          <button type="button" class="survey-option" id="industryOtherBtn" data-value="other">Other</button>
+        </div>
+        <div class="survey-field" id="industryOtherField" hidden>
+          <label for="surveyIndustryOther">Please specify</label>
+          <input type="text" id="surveyIndustryOther" placeholder="Your industry" />
         </div>
         <p class="survey-error" id="industryError" hidden>Please tell us your industry.</p>
-        <button type="button" class="survey-btn" id="industryContinue">Continue</button>
+        <button type="button" class="survey-btn" id="industryContinue" hidden>Continue</button>
       </div>
 
       <!-- Qualified -->
@@ -167,6 +176,8 @@
       function openSurvey() {
         overlay.hidden = false;
         document.body.style.overflow = 'hidden';
+        document.getElementById('industryOtherField').hidden = true;
+        document.getElementById('industryContinue').hidden = true;
         showStep('step-1');
       }
 
@@ -218,8 +229,22 @@
         });
       });
 
+      // Step 4: industry
+      document.querySelectorAll('#step-industry .survey-option').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (btn.dataset.value === 'other') {
+            document.getElementById('industryOtherField').hidden = false;
+            document.getElementById('industryContinue').hidden = false;
+            document.getElementById('surveyIndustryOther').focus();
+            return;
+          }
+          state.industry = btn.dataset.value;
+          showStep('step-qualified');
+        });
+      });
+
       document.getElementById('industryContinue').addEventListener('click', function () {
-        const industry = document.getElementById('surveyIndustry').value.trim();
+        const industry = document.getElementById('surveyIndustryOther').value.trim();
 
         if (!industry) {
           document.getElementById('industryError').hidden = false;
