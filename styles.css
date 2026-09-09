@@ -105,6 +105,67 @@ body {
   box-shadow: 0 16px 36px rgba(22, 163, 74, 0.5);
 }
 
+.clients {
+  width: 100%;
+  max-width: 800px;
+  margin: 3rem auto 0;
+}
+
+.clients__heading {
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.clients__marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+.clients__track {
+  display: flex;
+  width: max-content;
+  gap: 2.5rem;
+  animation: clients-scroll 26s linear infinite;
+}
+
+.clients__marquee:hover .clients__track {
+  animation-play-state: paused;
+}
+
+.clients__item {
+  flex: 0 0 auto;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #333;
+  white-space: nowrap;
+}
+
+.clients__sep {
+  margin: 0 0.4rem;
+  color: #16a34a;
+  font-weight: 400;
+}
+
+@keyframes clients-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clients__track {
+    animation: none;
+  }
+}
+
 @media (max-width: 640px) {
   .hero {
     padding: 4.2rem 1.05rem;
@@ -125,6 +186,10 @@ body {
   .btn {
     margin-top: 1.75rem;
     padding: 0.875rem 1.4rem;
+  }
+
+  .clients {
+    margin-top: 2.1rem;
   }
 }
 
