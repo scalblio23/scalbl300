@@ -104,6 +104,29 @@ body {
   box-shadow: 0 16px 36px rgba(22, 163, 74, 0.5);
 }
 
+@media (max-width: 640px) {
+  .hero {
+    padding: 4.2rem 1.05rem;
+  }
+
+  .hero__eyebrow {
+    margin-bottom: 0.7rem;
+  }
+
+  .hero__subheadline {
+    margin-top: 0.875rem;
+  }
+
+  .vsl {
+    margin-top: 2.1rem;
+  }
+
+  .btn {
+    margin-top: 1.75rem;
+    padding: 0.875rem 1.4rem;
+  }
+}
+
 /* Survey modal */
 
 .survey-overlay {
