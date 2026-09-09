@@ -44,6 +44,14 @@ body {
   color: #16a34a;
 }
 
+.hero__subheadline {
+  max-width: 600px;
+  margin: 1.25rem auto 0;
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  font-weight: 500;
+  color: #444;
+}
+
 .vsl {
   position: relative;
   width: 100%;
