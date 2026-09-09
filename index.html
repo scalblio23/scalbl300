@@ -81,7 +81,9 @@
     <div class="survey-card" role="dialog" aria-modal="true" aria-labelledby="step-1-heading">
       <button type="button" class="survey-close" id="surveyClose" aria-label="Close">&times;</button>
 
-      <p class="survey-persistent-heading">Complete this short 12-sec survey to see how this works</p>
+      <p class="survey-persistent-heading" id="surveyPersistentHeading">
+        Complete this short 12-sec survey to see how this works
+      </p>
 
       <!-- Step 1 -->
       <div class="survey-step" id="step-1">
@@ -178,6 +180,8 @@
       const closeBtn = document.getElementById('surveyClose');
       const surveyCard = document.querySelector('.survey-card');
       const steps = document.querySelectorAll('.survey-step');
+      const persistentHeading = document.getElementById('surveyPersistentHeading');
+      const defaultHeading = 'Complete this short 12-sec survey to see how this works';
       const state = { bookings: '', spend: '', team: '', industry: '', name: '', email: '', phone: '' };
 
       function showStep(id) {
@@ -188,6 +192,7 @@
       function openSurvey() {
         overlay.hidden = false;
         document.body.style.overflow = 'hidden';
+        persistentHeading.textContent = defaultHeading;
         showStep('step-1');
       }
 
@@ -289,6 +294,7 @@
         document.getElementById('phoneError').hidden = true;
 
         state.phone = phone;
+        persistentHeading.textContent = 'Congrats! You qualify, book a time below.';
         showStep('step-calendly');
         loadCalendly();
       });
@@ -302,7 +308,11 @@
             window.Calendly.initInlineWidget({
               url: 'https://calendly.com/fortent/new-meeting-1',
               parentElement: embed,
-              prefill: { name: state.name, email: state.email },
+              prefill: {
+                name: state.name,
+                email: state.email,
+                customAnswers: { a1: state.phone },
+              },
             });
           } else if (attemptsLeft > 0) {
             setTimeout(function () {
