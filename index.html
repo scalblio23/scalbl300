@@ -74,6 +74,17 @@
         </div>
       </div>
 
+      <!-- Industry -->
+      <div class="survey-step" id="step-industry" hidden>
+        <h2 class="survey-heading">What industry are you in?</h2>
+        <div class="survey-field">
+          <label for="surveyIndustry">Industry</label>
+          <input type="text" id="surveyIndustry" placeholder="e.g. Roofing, HVAC, Solar" />
+        </div>
+        <p class="survey-error" id="industryError" hidden>Please tell us your industry.</p>
+        <button type="button" class="survey-btn" id="industryContinue">Continue</button>
+      </div>
+
       <!-- Qualified -->
       <div class="survey-step survey-step--center" id="step-qualified" hidden>
         <h2 class="survey-heading survey-heading--success">Great, you qualify! 🎉</h2>
@@ -121,7 +132,7 @@
       const closeBtn = document.getElementById('surveyClose');
       const surveyCard = document.querySelector('.survey-card');
       const steps = document.querySelectorAll('.survey-step');
-      const state = { bookings: '', spend: '', team: '', name: '', email: '', phone: '' };
+      const state = { bookings: '', spend: '', team: '', industry: '', name: '', email: '', phone: '' };
 
       function showStep(id) {
         steps.forEach((s) => (s.hidden = s.id !== id));
@@ -177,9 +188,22 @@
               "We need a team ready to handle the extra appointment volume we generate. Reach out again once you've scaled your team.";
             showStep('step-disqualified');
           } else {
-            showStep('step-qualified');
+            showStep('step-industry');
           }
         });
+      });
+
+      document.getElementById('industryContinue').addEventListener('click', function () {
+        const industry = document.getElementById('surveyIndustry').value.trim();
+
+        if (!industry) {
+          document.getElementById('industryError').hidden = false;
+          return;
+        }
+        document.getElementById('industryError').hidden = true;
+
+        state.industry = industry;
+        showStep('step-qualified');
       });
 
       document.getElementById('qualifiedContinue').addEventListener('click', function () {
