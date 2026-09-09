@@ -8,6 +8,38 @@
   <script src="https://fast.wistia.com/player.js" async></script>
   <script src="https://fast.wistia.com/embed/g5wdeaiher.js" async type="module"></script>
   <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+
+  <!-- Meta Pixel Code -->
+  <script>
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return;
+      n = f.fbq = function () {
+        n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+      };
+      if (!f._fbq) f._fbq = n;
+      n.push = n;
+      n.loaded = true;
+      n.version = '2.0';
+      n.queue = [];
+      t = b.createElement(e);
+      t.async = true;
+      t.src = v;
+      s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s);
+    }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1704508696858997');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img
+      height="1"
+      width="1"
+      style="display:none"
+      src="https://www.facebook.com/tr?id=1704508696858997&ev=PageView&noscript=1"
+    />
+  </noscript>
+  <!-- End Meta Pixel Code -->
+
   <style>
     wistia-player[media-id='g5wdeaiher']:not(:defined) {
       background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/g5wdeaiher/swatch');
@@ -300,6 +332,14 @@
 
         state.phone = '+61' + digits;
         persistentHeading.textContent = 'Congrats! You qualify, book a time below.';
+
+        if (typeof fbq === 'function') {
+          fbq('track', 'Lead', {
+            content_category: state.industry,
+            content_name: state.bookings,
+          });
+        }
+
         showStep('step-calendly');
         loadCalendly();
       });
