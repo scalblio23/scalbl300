@@ -66,7 +66,29 @@
       </p>
 
       <div class="vsl">
-        <wistia-player media-id="g5wdeaiher" aspect="1.7777777777777777" autoplay muted></wistia-player>
+        <wistia-player id="vslPlayer" media-id="g5wdeaiher" aspect="1.7777777777777777" autoplay muted></wistia-player>
+        <button type="button" id="vslSoundBtn" class="vsl__sound-btn">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path
+              d="M4 9v6h4l5 5V4L8 9H4z"
+              fill="currentColor"
+            />
+            <path
+              d="M16.5 8.5a5 5 0 0 1 0 7"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+            />
+            <path
+              d="M19 6a9 9 0 0 1 0 12"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              opacity="0.6"
+            />
+          </svg>
+          Click for sound
+        </button>
       </div>
 
       <button type="button" id="bookDemoBtn" class="btn btn--primary">Book Demo</button>
@@ -369,6 +391,26 @@
       }
 
       document.getElementById('currentYear').textContent = new Date().getFullYear();
+    })();
+  </script>
+
+  <script>
+    (function () {
+      const vslPlayer = document.getElementById('vslPlayer');
+      const soundBtn = document.getElementById('vslSoundBtn');
+
+      soundBtn.addEventListener('click', function () {
+        try {
+          vslPlayer.muted = false;
+          vslPlayer.removeAttribute('muted');
+          if (typeof vslPlayer.unmute === 'function') {
+            vslPlayer.unmute();
+          }
+        } catch (e) {
+          /* no-op */
+        }
+        soundBtn.hidden = true;
+      });
     })();
   </script>
 
