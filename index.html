@@ -159,10 +159,7 @@
         <h2 class="survey-heading">Phone*</h2>
         <div class="survey-field">
           <label for="surveyPhone">Phone</label>
-          <div class="survey-phone-input">
-            <span class="survey-phone-prefix">+61</span>
-            <input type="tel" id="surveyPhone" autocomplete="tel" placeholder="413 214 320" />
-          </div>
+          <input type="tel" id="surveyPhone" autocomplete="tel" placeholder="0413 214 320" />
         </div>
         <p class="survey-error" id="phoneError" hidden>Please enter your phone number.</p>
         <button type="button" class="survey-btn" id="phoneContinue">Continue</button>
@@ -289,7 +286,11 @@
 
       document.getElementById('phoneContinue').addEventListener('click', function () {
         const rawPhone = document.getElementById('surveyPhone').value.trim();
-        const digits = rawPhone.replace(/\D/g, '').replace(/^0+/, '');
+        let digits = rawPhone.replace(/\D/g, '');
+        if (digits.startsWith('61')) {
+          digits = digits.slice(2);
+        }
+        digits = digits.replace(/^0+/, '');
 
         if (!digits) {
           document.getElementById('phoneError').hidden = false;

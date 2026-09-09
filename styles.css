@@ -356,42 +356,6 @@ body {
   border-color: #16a34a;
 }
 
-.survey-phone-input {
-  display: flex;
-  align-items: stretch;
-  border: 2px solid #e5e5e5;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.survey-phone-input:focus-within {
-  border-color: #16a34a;
-}
-
-.survey-phone-prefix {
-  display: flex;
-  align-items: center;
-  padding: 0 0 0 1rem;
-  border-right: 2px solid #e5e5e5;
-  font-weight: 700;
-  color: #333;
-  background: #fafafa;
-}
-
-.survey-phone-input input {
-  flex: 1;
-  min-width: 0;
-  padding: 0.85rem 1rem;
-  border: none;
-  border-radius: 0;
-  font-family: inherit;
-  font-size: 1rem;
-}
-
-.survey-phone-input input:focus {
-  outline: none;
-}
-
 .survey-error {
   color: #dc2626;
   font-size: 0.9rem;
