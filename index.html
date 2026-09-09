@@ -363,6 +363,23 @@
           });
         }
 
+        fetch('https://hook.eu1.make.com/pj48gf55nbrdimiixttj69mi3mb8vkfe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            timestamp: new Date().toISOString(),
+            name: state.name,
+            email: state.email,
+            phone: state.phone,
+            bookings: state.bookings,
+            spend: state.spend,
+            team: state.team,
+            industry: state.industry,
+          }),
+        }).catch(function () {
+          /* non-blocking: booking flow continues even if this fails */
+        });
+
         showStep('step-calendly');
         loadCalendly();
       });
