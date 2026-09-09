@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="styles.css" />
   <script src="https://fast.wistia.com/player.js" async></script>
   <script src="https://fast.wistia.com/embed/g5wdeaiher.js" async type="module"></script>
+  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
   <style>
     wistia-player[media-id='g5wdeaiher']:not(:defined) {
       background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/g5wdeaiher/swatch');
@@ -36,9 +37,195 @@
         <wistia-player media-id="g5wdeaiher" aspect="1.7777777777777777" autoplay muted></wistia-player>
       </div>
 
-      <a href="#" class="btn btn--primary">Book Demo</a>
+      <button type="button" id="bookDemoBtn" class="btn btn--primary">Book Demo</button>
     </section>
   </main>
+
+  <div class="survey-overlay" id="surveyOverlay" hidden>
+    <div class="survey-card" role="dialog" aria-modal="true" aria-labelledby="step-1-heading">
+      <button type="button" class="survey-close" id="surveyClose" aria-label="Close">&times;</button>
+
+      <!-- Step 1 -->
+      <div class="survey-step" id="step-1">
+        <h2 class="survey-heading" id="step-1-heading">How many bookings would you like to add per month?</h2>
+        <div class="survey-options survey-options--grid">
+          <button type="button" class="survey-option" data-field="bookings" data-value="60-100">60 - 100</button>
+          <button type="button" class="survey-option" data-field="bookings" data-value="100-150">100 - 150</button>
+          <button type="button" class="survey-option" data-field="bookings" data-value="150-200">150 - 200</button>
+          <button type="button" class="survey-option" data-field="bookings" data-value="200+">200+</button>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="survey-step" id="step-2" hidden>
+        <h2 class="survey-heading">Can you comfortably spend $300 per day on Meta?</h2>
+        <div class="survey-options survey-options--yesno">
+          <button type="button" class="survey-option" data-field="spend" data-value="yes">Yes</button>
+          <button type="button" class="survey-option" data-field="spend" data-value="no">No</button>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="survey-step" id="step-3" hidden>
+        <h2 class="survey-heading">
+          Do you have a team that can handle <span id="bookingsAnswer">60+</span> more appointments?
+        </h2>
+        <div class="survey-options survey-options--yesno">
+          <button type="button" class="survey-option" data-field="team" data-value="yes">Yes</button>
+          <button type="button" class="survey-option" data-field="team" data-value="no">No</button>
+        </div>
+      </div>
+
+      <!-- Qualified -->
+      <div class="survey-step survey-step--center" id="step-qualified" hidden>
+        <h2 class="survey-heading survey-heading--success">Great, you qualify! 🎉</h2>
+        <p class="survey-text">Let's get your demo on the calendar.</p>
+        <button type="button" class="survey-btn" id="qualifiedContinue">Continue</button>
+      </div>
+
+      <!-- Disqualified -->
+      <div class="survey-step survey-step--center" id="step-disqualified" hidden>
+        <h2 class="survey-heading">Thanks for your interest</h2>
+        <p class="survey-text" id="disqualifiedText"></p>
+      </div>
+
+      <!-- Contact -->
+      <div class="survey-step" id="step-contact" hidden>
+        <h2 class="survey-heading">Almost there — where should we send your confirmation?</h2>
+        <div class="survey-field">
+          <label for="surveyName">Name</label>
+          <input type="text" id="surveyName" autocomplete="name" />
+        </div>
+        <div class="survey-field">
+          <label for="surveyEmail">Email</label>
+          <input type="email" id="surveyEmail" autocomplete="email" />
+        </div>
+        <div class="survey-field">
+          <label for="surveyPhone">Phone</label>
+          <input type="tel" id="surveyPhone" autocomplete="tel" />
+        </div>
+        <p class="survey-error" id="contactError" hidden>Please fill out every field with a valid email.</p>
+        <button type="button" class="survey-btn" id="contactContinue">Continue</button>
+      </div>
+
+      <!-- Calendly -->
+      <div class="survey-step" id="step-calendly" hidden>
+        <h2 class="survey-heading">Pick a time that works for you</h2>
+        <div id="calendlyEmbed" style="min-width:320px;height:700px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const overlay = document.getElementById('surveyOverlay');
+      const openBtn = document.getElementById('bookDemoBtn');
+      const closeBtn = document.getElementById('surveyClose');
+      const steps = document.querySelectorAll('.survey-step');
+      const state = { bookings: '', spend: '', team: '', name: '', email: '', phone: '' };
+
+      function showStep(id) {
+        steps.forEach((s) => (s.hidden = s.id !== id));
+      }
+
+      function openSurvey() {
+        overlay.hidden = false;
+        document.body.style.overflow = 'hidden';
+        showStep('step-1');
+      }
+
+      function closeSurvey() {
+        overlay.hidden = true;
+        document.body.style.overflow = '';
+      }
+
+      openBtn.addEventListener('click', openSurvey);
+      closeBtn.addEventListener('click', closeSurvey);
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) closeSurvey();
+      });
+
+      // Step 1: how many bookings
+      document.querySelectorAll('#step-1 .survey-option').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          state.bookings = btn.dataset.value;
+          document.getElementById('bookingsAnswer').textContent = state.bookings;
+          showStep('step-2');
+        });
+      });
+
+      // Step 2: ad spend
+      document.querySelectorAll('#step-2 .survey-option').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          state.spend = btn.dataset.value;
+          if (state.spend === 'no') {
+            document.getElementById('disqualifiedText').textContent =
+              "Right now we work best with businesses that can invest at least $300/day in ad spend. Reach out again once you're ready to scale.";
+            showStep('step-disqualified');
+          } else {
+            showStep('step-3');
+          }
+        });
+      });
+
+      // Step 3: team capacity
+      document.querySelectorAll('#step-3 .survey-option').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          state.team = btn.dataset.value;
+          if (state.team === 'no') {
+            document.getElementById('disqualifiedText').textContent =
+              "We need a team ready to handle the extra appointment volume we generate. Reach out again once you've scaled your team.";
+            showStep('step-disqualified');
+          } else {
+            showStep('step-qualified');
+          }
+        });
+      });
+
+      document.getElementById('qualifiedContinue').addEventListener('click', function () {
+        showStep('step-contact');
+      });
+
+      document.getElementById('contactContinue').addEventListener('click', function () {
+        const name = document.getElementById('surveyName').value.trim();
+        const email = document.getElementById('surveyEmail').value.trim();
+        const phone = document.getElementById('surveyPhone').value.trim();
+        const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+        if (!name || !phone || !emailValid) {
+          document.getElementById('contactError').hidden = false;
+          return;
+        }
+        document.getElementById('contactError').hidden = true;
+
+        state.name = name;
+        state.email = email;
+        state.phone = phone;
+
+        showStep('step-calendly');
+        loadCalendly();
+      });
+
+      function loadCalendly() {
+        const embed = document.getElementById('calendlyEmbed');
+        embed.innerHTML = '';
+
+        (function init(attemptsLeft) {
+          if (window.Calendly) {
+            window.Calendly.initInlineWidget({
+              url: 'https://calendly.com/fortent/new-meeting-1',
+              parentElement: embed,
+              prefill: { name: state.name, email: state.email },
+            });
+          } else if (attemptsLeft > 0) {
+            setTimeout(function () {
+              init(attemptsLeft - 1);
+            }, 200);
+          }
+        })(25);
+      }
+    })();
+  </script>
 
 </body>
 </html>
