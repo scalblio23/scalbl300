@@ -159,7 +159,10 @@
         <h2 class="survey-heading">Phone*</h2>
         <div class="survey-field">
           <label for="surveyPhone">Phone</label>
-          <input type="tel" id="surveyPhone" autocomplete="tel" />
+          <div class="survey-phone-input">
+            <span class="survey-phone-prefix">+61</span>
+            <input type="tel" id="surveyPhone" autocomplete="tel" placeholder="413 214 320" />
+          </div>
         </div>
         <p class="survey-error" id="phoneError" hidden>Please enter your phone number.</p>
         <button type="button" class="survey-btn" id="phoneContinue">Continue</button>
@@ -285,15 +288,16 @@
       });
 
       document.getElementById('phoneContinue').addEventListener('click', function () {
-        const phone = document.getElementById('surveyPhone').value.trim();
+        const rawPhone = document.getElementById('surveyPhone').value.trim();
+        const digits = rawPhone.replace(/\D/g, '').replace(/^0+/, '');
 
-        if (!phone) {
+        if (!digits) {
           document.getElementById('phoneError').hidden = false;
           return;
         }
         document.getElementById('phoneError').hidden = true;
 
-        state.phone = phone;
+        state.phone = '+61' + digits;
         persistentHeading.textContent = 'Congrats! You qualify, book a time below.';
         showStep('step-calendly');
         loadCalendly();
