@@ -81,11 +81,11 @@ body {
   width: 100%;
   max-width: 800px;
   margin: 2.5rem auto 0;
-  padding: 1.25rem 2rem;
+  padding: 1.625rem 2.6rem;
   border: none;
-  border-radius: 12px;
+  border-radius: 16px;
   font-family: inherit;
-  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  font-size: clamp(1.43rem, 3.25vw, 2.08rem);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.02em;
