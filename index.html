@@ -110,7 +110,7 @@
       <!-- Calendly -->
       <div class="survey-step" id="step-calendly" hidden>
         <h2 class="survey-heading">Pick a time that works for you</h2>
-        <div id="calendlyEmbed" style="min-width:320px;height:700px;"></div>
+        <div id="calendlyEmbed" style="width:100%;min-width:280px;height:700px;"></div>
       </div>
     </div>
   </div>
@@ -120,11 +120,13 @@
       const overlay = document.getElementById('surveyOverlay');
       const openBtn = document.getElementById('bookDemoBtn');
       const closeBtn = document.getElementById('surveyClose');
+      const surveyCard = document.querySelector('.survey-card');
       const steps = document.querySelectorAll('.survey-step');
       const state = { bookings: '', spend: '', team: '', name: '', email: '', phone: '' };
 
       function showStep(id) {
         steps.forEach((s) => (s.hidden = s.id !== id));
+        surveyCard.classList.toggle('survey-card--wide', id === 'step-calendly');
       }
 
       function openSurvey() {
