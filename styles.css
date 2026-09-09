@@ -177,11 +177,6 @@ body {
   gap: 0.75rem;
 }
 
-.survey-options--grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
 .survey-options--yesno {
   flex-direction: row;
 }
