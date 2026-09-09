@@ -193,6 +193,24 @@ body {
   }
 }
 
+.disclaimers {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  text-align: center;
+}
+
+.disclaimers p {
+  margin-bottom: 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #999;
+}
+
+.disclaimers p:last-child {
+  margin-bottom: 0;
+}
+
 /* Survey modal */
 
 .survey-overlay {

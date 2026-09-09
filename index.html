@@ -65,6 +65,18 @@
     </section>
   </main>
 
+  <footer class="disclaimers">
+    <p>
+      Results vary by business, market, and effort. Past client results are not a guarantee of future performance,
+      and any figures shown are illustrative examples, not a promise of specific bookings, revenue, or income.
+    </p>
+    <p>
+      This site is not part of, or endorsed by, Facebook, Meta, Instagram, or any Meta company. Meta is a trademark
+      of Meta Platforms, Inc.
+    </p>
+    <p>&copy; <span id="currentYear"></span> All rights reserved.</p>
+  </footer>
+
   <div class="survey-overlay" id="surveyOverlay" hidden>
     <div class="survey-card" role="dialog" aria-modal="true" aria-labelledby="step-1-heading">
       <button type="button" class="survey-close" id="surveyClose" aria-label="Close">&times;</button>
@@ -273,6 +285,8 @@
           }
         })(25);
       }
+
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
     })();
   </script>
 
