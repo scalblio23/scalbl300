@@ -130,7 +130,7 @@ body {
   display: flex;
   width: max-content;
   gap: 2.5rem;
-  animation: clients-scroll 26s linear infinite;
+  animation: clients-scroll 55s linear infinite;
 }
 
 .clients__marquee:hover .clients__track {
@@ -139,15 +139,15 @@ body {
 
 .clients__item {
   flex: 0 0 auto;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #333;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #999;
   white-space: nowrap;
 }
 
 .clients__sep {
   margin: 0 0.4rem;
-  color: #16a34a;
+  color: #bbb;
   font-weight: 400;
 }
 
